@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<link href="link rel="preconnect href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">"
+   
+    <link rel="stylesheet" href="/collections/style.css"></li>
+</head>
+<body>
+    
+<div id="navbar">
+        <ul id="navlist">
+            <li><a href="/collections/index.html">Home</a></li>
+            <li><a href="/collections/about.html">About</a></li>
+            <li><a href="/collections/collection.html">Full Collection</a></li>
+        </ul>
+    </div>
+
+<h1>Pumpkin Mug</h1>
+
+<div class="item-layout">
+    <img src="/assets/pumpkinmug.png" alt="Pumpkin Mug">
+
+    <div class="infobox">
+        <p>Loading item details...</p>
+    </div>
+</div>
+
+<script>
+    const infoBox = document.querySelector('.infobox');
+    const itemName = document.querySelector('h1').textContent.trim().toLowerCase();
+
+    fetch('../data.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Could not load collection data.');
+            return response.json();
+        })
+        .then(items => {
+            const item = items.find(entry => entry.name.trim().toLowerCase() === itemName);
+            if (!item) throw new Error('Item was not found in the collection.');
+
+            const details = document.createElement('dl');
+            Object.entries(item).forEach(([label, value]) => {
+                if (label === 'name') return;
+
+                const term = document.createElement('dt');
+                term.textContent = label;
+                const description = document.createElement('dd');
+                description.textContent = value;
+                details.append(term, description);
+            });
+
+            infoBox.replaceChildren(details);
+        })
+        .catch(error => {
+            infoBox.textContent = error.message;
+        });
+</script>
+
+</body>
+</html>

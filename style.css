@@ -15,7 +15,7 @@ h1 {
     font-family: "Poppins", sans-serif;
     font-weight: 700;
     font-style: normal;
-    padding: 3vw;
+    padding: 2vw;
 }
 
 h2 {
@@ -75,5 +75,60 @@ p {
     width: 100%;
     height: auto;
     object-fit: contain;
+}
+
+#fullcollection {
+    width: 100%;
+    height: auto;
+    padding: 5vw;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 1.5rem;
+    row-gap: 1rem;
+    justify-items: space-evenly;
+    align-items: center;
+}
+
+#fullcollection img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+.item-layout {
+    display: flex;
+    align-items: flex-start;
+    gap: 5vw;
+}
+
+.item-layout img {
+    width: 40vw;
+    height: auto;
+    margin-left: 5vw;
+}
+
+.infobox {
+    background-color: white;
+    width: 45vw;
+    height: 45vw;
+    display: flex;
+    box-sizing: border-box;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+}
+
+.infobox dl {
+    margin-left: 3vw;
+    margin: 3vw;
+    color: black;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.35vw;
+}
+
+.infobox dd {
+    margin: 0 0 16px;
 }
 
