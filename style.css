@@ -132,3 +132,16 @@ p {
     margin: 0 0 16px;
 }
 
+.aboutinfo {
+    width: 64vw;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.aboutinfo p {
+    color: white;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    text-align: center;
+}
