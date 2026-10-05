@@ -15,11 +15,55 @@
     
 <div id="navbar">
         <ul id="navlist">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="collection.html">Full Collection</a></li>
+            <li><a href="/collections/index.html">Home</a></li>
+            <li><a href="/collections/about.html">About</a></li>
+            <li><a href="/collections/collection.html">Full Collection</a></li>
         </ul>
     </div>
+
+<h1>Bubble Mug</h1>
+
+<div class="item-layout">
+    <img src="/assets/bubblemug.png" alt="Bubble Mug">
+
+    <div class="infobox">
+        <p>Loading item details...</p>
+    </div>
+</div>
+
+<script>
+    const infoBox = document.querySelector('.infobox');
+    const itemName = document.querySelector('h1').textContent.trim().toLowerCase();
+
+    fetch('../data.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Could not load collection data.');
+            return response.json();
+        })
+        .then(items => {
+            const item = items.find(entry => entry.name.trim().toLowerCase() === itemName);
+            if (!item) throw new Error('Item was not found in the collection.');
+
+            const details = document.createElement('dl');
+            Object.entries(item).forEach(([label, value]) => {
+                if (label === 'name') return;
+
+                const term = document.createElement('dt');
+                term.textContent = label;
+                const description = document.createElement('dd');
+                description.textContent = value;
+                details.append(term, description);
+            });
+
+            infoBox.replaceChildren(details);
+        })
+        .catch(error => {
+            infoBox.textContent = error.message;
+        });
+</script>
+
+</body>
+</html>
 
 </body>
 </html>

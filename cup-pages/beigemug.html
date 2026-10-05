@@ -15,13 +15,13 @@
 
 <div id="navbar">
         <ul id="navlist">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="collection.html">Full Collection</a></li>
+            <li><a href="/collections/index.html">Home</a></li>
+            <li><a href="/collections/about.html">About</a></li>
+            <li><a href="/collections/collection.html">Full Collection</a></li>
         </ul>
     </div>
     
-<h1>Beige Mug</h1>
+<h1 data-item-name="Leaf mug #3">Beige Mug</h1>
 
 <div class="item-layout">
     <img src="/assets/beigemug.png" alt="Beige Mug">
@@ -33,7 +33,8 @@
 
 <script>
     const infoBox = document.querySelector('.infobox');
-    const itemName = document.querySelector('h1').textContent.trim().toLowerCase();
+    const heading = document.querySelector('h1');
+    const itemName = (heading.dataset.itemName || heading.textContent).trim().toLowerCase();
 
     fetch('../data.json')
         .then(response => {
