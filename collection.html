@@ -40,6 +40,10 @@
     overflow: hidden;
 }
 
+#fullcollection .box[hidden] {
+    display: none !important;
+}
+
 #fullcollection .box img {
     width: 100%;
     height: auto;
@@ -77,6 +81,11 @@
     opacity: 1;
 }
 </style>
+
+<div id="search">
+<input id="collection-search" type="search" placeholder="Search..." aria-label="Search the collection by name or details">
+<p id="search-status" aria-live="polite"></p>
+</div>
 
 
 <div id="fullcollection">
@@ -263,6 +272,55 @@
     </div>
 </div>
 
-<li href="script.js"></li>
+<script>
+    const searchInput = document.querySelector('#collection-search');
+    const searchStatus = document.querySelector('#search-status');
+    const cards = [...document.querySelectorAll('#fullcollection .box')];
+    const nameAliases = new Map([['stanley cup', 'pink stanley']]);
+    const normalize = value => String(value ?? '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+
+    cards.forEach(card => {
+        const name = card.querySelector('.content a')?.textContent.trim() ?? '';
+        card.dataset.searchText = normalize(name);
+    });
+
+    function filterCards() {
+        const query = normalize(searchInput.value);
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+            const matches = card.dataset.searchText.includes(query);
+            card.hidden = !matches;
+            if (matches) visibleCount++;
+        });
+
+        searchStatus.textContent = query && visibleCount === 0
+            ? 'No cups match your search.'
+            : query ? `${visibleCount} cup${visibleCount === 1 ? '' : 's'} found` : '';
+    }
+
+    searchInput.addEventListener('input', filterCards);
+    filterCards();
+
+    fetch('./data.json')
+        .then(response => {
+            if (!response.ok) throw new Error('Could not load collection data.');
+            return response.json();
+        })
+        .then(items => {
+            cards.forEach(card => {
+                const name = card.querySelector('.content a')?.textContent.trim() ?? '';
+                const normalizedName = normalize(name);
+                const lookupName = nameAliases.get(normalizedName) ?? normalizedName;
+                const item = items.find(entry => normalize(entry.name) === lookupName);
+                if (item) {
+                    card.dataset.searchText = normalize([name, ...Object.values(item)].join(' '));
+                }
+            });
+            filterCards();
+        })
+        
+</script>
+
 </body>
 </html>
